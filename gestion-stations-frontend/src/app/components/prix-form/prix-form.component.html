@@ -1,0 +1,111 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h3>{{ isEditMode ? 'Modifier le Prix' : 'Nouveau Prix' }}</h3>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()" #prixForm="ngForm">
+
+            <div class="mb-3">
+              <label for="station" class="form-label">Station <span class="text-danger">*</span></label>
+              <select
+                class="form-select"
+                id="station"
+                name="station"
+                [(ngModel)]="selectedStationId"
+                required
+                [disabled]="isEditMode"
+                #station="ngModel">
+                <option [value]="undefined">Sélectionner une station</option>
+                <option *ngFor="let s of stations" [value]="s.id">
+                  {{ s.nom }} - {{ s.adresse }}
+                </option>
+              </select>
+              <div *ngIf="station.invalid && station.touched" class="text-danger">
+                La station est requise
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="carburant" class="form-label">Carburant <span class="text-danger">*</span></label>
+              <select
+                class="form-select"
+                id="carburant"
+                name="carburant"
+                [(ngModel)]="selectedCarburantId"
+                required
+                [disabled]="isEditMode"
+                #carburant="ngModel">
+                <option [value]="undefined">Sélectionner un carburant</option>
+                <option *ngFor="let c of carburants" [value]="c.id">
+                  {{ c.type }} - {{ c.description }}
+                </option>
+              </select>
+              <div *ngIf="carburant.invalid && carburant.touched" class="text-danger">
+                Le carburant est requis
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="date" class="form-label">Date <span class="text-danger">*</span></label>
+              <input
+                type="date"
+                class="form-control"
+                id="date"
+                name="date"
+                [(ngModel)]="prix.date"
+                required
+                #date="ngModel">
+              <div *ngIf="date.invalid && date.touched" class="text-danger">
+                La date est requise
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="prix" class="form-label">Prix (MAD) <span class="text-danger">*</span></label>
+              <input
+                type="number"
+                step="0.01"
+                class="form-control"
+                id="prix"
+                name="prix"
+                [(ngModel)]="prix.prix"
+                required
+                min="0"
+                #prixInput="ngModel">
+              <div *ngIf="prixInput.invalid && prixInput.touched" class="text-danger">
+                Le prix est requis et doit être positif
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="remarque" class="form-label">Remarque</label>
+              <textarea
+                class="form-control"
+                id="remarque"
+                name="remarque"
+                rows="3"
+                [(ngModel)]="prix.remarque"
+                placeholder="Remarque optionnelle"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button
+                type="submit"
+                class="btn btn-warning"
+                [disabled]="prixForm.invalid || (!isEditMode && (!selectedStationId || !selectedCarburantId))">
+                <i class="bi bi-save"></i> {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+              </button>
+              <a routerLink="/prix" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Annuler
+              </a>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

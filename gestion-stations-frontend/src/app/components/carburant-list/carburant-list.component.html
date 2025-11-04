@@ -1,0 +1,41 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Liste des Carburants</h2>
+    <a routerLink="/carburants/new" class="btn btn-success">
+      <i class="bi bi-plus-circle"></i> Nouveau Carburant
+    </a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let carburant of carburants">
+        <td>{{ carburant.id }}</td>
+        <td>
+          <span class="badge bg-info">{{ carburant.type }}</span>
+        </td>
+        <td>{{ carburant.description }}</td>
+        <td>
+          <a [routerLink]="['/carburants/edit', carburant.id]" class="btn btn-sm btn-warning me-2">
+            <i class="bi bi-pencil"></i> Modifier
+          </a>
+          <button (click)="deleteCarburant(carburant.id)" class="btn btn-sm btn-danger">
+            <i class="bi bi-trash"></i> Supprimer
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="carburants.length === 0">
+        <td colspan="4" class="text-center">Aucun carburant trouvé</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Carburant } from '../models/carburant';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CarburantService {
+  private baseUrl = 'http://localhost:8080/api/carburants';
+
+  constructor(private http: HttpClient) { }
+
+  getAllCarburants(): Observable<Carburant[]> {
+    return this.http.get<Carburant[]>(this.baseUrl);
+  }
+
+  getCarburantById(id: number): Observable<Carburant> {
+    return this.http.get<Carburant>(`${this.baseUrl}/${id}`);
+  }
+
+  createCarburant(carburant: Carburant): Observable<Carburant> {
+    return this.http.post<Carburant>(this.baseUrl, carburant);
+  }
+
+  updateCarburant(id: number, carburant: Carburant): Observable<Carburant> {
+    return this.http.put<Carburant>(`${this.baseUrl}/${id}`, carburant);
+  }
+
+  deleteCarburant(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
+}
